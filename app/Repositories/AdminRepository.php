@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
          return Administrateur::where("email", $email)->first();
      }
 
-     public function inscription(array $data): string
+     public function inscription(array $data): Administrateur
      {
          $admin = new Administrateur();
 

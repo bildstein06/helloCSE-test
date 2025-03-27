@@ -10,7 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 class Administrateur extends Authenticatable
 {
     use HasFactory, HasApiTokens;
-
+    protected $hidden = [
+        'password'
+    ];
     public function profils()
     {
         return $this->hasMany(Profil::class);
