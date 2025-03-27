@@ -14,6 +14,7 @@ class AdminConnexionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // J'ai utilisé une regle personnalisé pour la validation de mail (celle de laravel est incomplete)
             "email"  => ["required", new EmailValide()],
             "password"  => "required",
         ];

@@ -16,6 +16,7 @@ class ModifierProfilRequest extends FormRequest
 
     public function prepareForValidation()
     {
+        // Récupérer l'id de l'admin a partir du token du header
         $this->merge([
             "administrateur_id" => PersonalAccessToken::findToken($this->bearerToken())->tokenable_id,
         ]);

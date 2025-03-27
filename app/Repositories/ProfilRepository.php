@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Enums\ProfilStatutEnum;
 use App\Models\Profil;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 
  Class ProfilRepository {
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
          return Profil::find($id);
      }
 
-     public function getAll(): Profil
+     public function getAll(): Collection
      {
          return Profil::select("id", "nom", "prenom", "image", "administrateur_id", "created_at")->with(["administrateur" => function($query) {
              $query->select("id", "name", "email");
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Storage;
 
      public function creerProfil(array $data): Profil
      {
+         // Un try catch pour s'assurer que le stockage du fichier et l'ajout du profil fonctionne simultanément
+         // Cela permet d'eviter d'inserer un profil s'il y a erreur danss le systeme de fichier
          try {
              $profil = new Profil();
 
@@ -31,6 +34,7 @@ use Illuminate\Support\Facades\Storage;
              $profil->statut = $data["statut"];
              $profil->administrateur_id = $data["administrateur_id"];
 
+             // Stockage du fichier s'il est inclu dans la requete
              if (isset($data["image"])) {
                  $filename = Storage::disk("hellocse")->put("", $data["image"]);
                  $profil->image = $filename;
@@ -57,6 +61,9 @@ use Illuminate\Support\Facades\Storage;
          }
          else
          {
+             // Un try catch pour s'assurer que le stockage du fichier et l'ajout du profil fonctionne simultanément
+             // Cela permet d'eviter d'inserer un profil s'il y a erreur danss le systeme de fichier
+
              try {
 
                  $profil->nom = isset($data["nom"]) ? $data["nom"] : $profil->nom;
@@ -64,11 +71,14 @@ use Illuminate\Support\Facades\Storage;
                  $profil->statut = isset($data["statut"]) ? $data["statut"] : $profil->statut;
                  $profil->administrateur_id = $data["administrateur_id"];
 
+                 // Stockage du fichier s'il est inclu dans la requete
                  if (isset($data["image"])) {
+                     // suppression de l'ancienne image si elle existe
                      if($profil->image !== null)
                      {
                          Storage::disk("hellocse")->delete($profil->image);
                      }
+                     // remplacer l'ancienne image par la nouvelle
                      $filename = Storage::disk("hellocse")->put("", $data["image"]);
                      $profil->image = $filename;
                  }

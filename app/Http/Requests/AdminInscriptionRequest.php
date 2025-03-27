@@ -16,10 +16,10 @@ class AdminInscriptionRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "email" => ["required", new EmailValide(), "unique:administrateurs"],
+            "email" => ["required", new EmailValide(), "unique:administrateurs"], // J'ai utilisé une regle personnalisé pour la validation de mail (celle de laravel est incomplete)
             'password' => [
                 'required',
-                Password::min(8)
+                Password::min(8) // Mot de passe fort
                     ->letters()     // Doit contenir des lettres
                     ->mixedCase()   // Doit contenir des majuscules et minuscules
                     ->numbers()     // Doit contenir des chiffres

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("nom");
             $table->string("prenom");
             $table->string("image")->nullable();
-            $table->enum("statut", array_column(ProfilStatutEnum::cases(), 'value'));
+            $table->enum("statut", array_column(ProfilStatutEnum::cases(), "value"));
             $table->unsignedBigInteger("administrateur_id");
             $table->timestamps();
             $table->softDeletes();

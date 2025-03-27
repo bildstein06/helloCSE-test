@@ -38,6 +38,7 @@ class AdminTest extends TestCase
             "password" => "John@doe",
         ]);
 
+        // retourne une erreur de validation
         $response->assertStatus(422);
     }
 
@@ -63,6 +64,7 @@ class AdminTest extends TestCase
             "password" => "wrongpassword",
         ]);
 
+        // Email et/ou mot de passe incorrects
         $response->assertStatus(401);
     }
 }

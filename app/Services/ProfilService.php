@@ -7,6 +7,7 @@ use App\Models\Administrateur;
 use App\Models\Profil;
 use App\Repositories\AdminRepository;
 use App\Repositories\ProfilRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 
 Class ProfilService {
@@ -18,7 +19,7 @@ Class ProfilService {
         $this->profilRepository = $profilRepository;
     }
 
-    public function getProfils(): Profil
+    public function getProfils(): Collection
     {
         return $this->profilRepository->getAll();
     }
